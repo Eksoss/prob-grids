@@ -146,10 +146,10 @@ def calc_prob(models, weights):
 # calc_res = lambda dists, weights: np.expand_dims((dists**2 * weights).sum(axis=1) / weights.sum(axis=1), 0) # variance weighted | proposta para calcular resíduo
 
 iters = 10
-fig, axs = plt.subplots(iters, num_models, sharex=True, sharey=True)
+fig, axs = plt.subplots(iters, num_models, figsize=(2. * num_models, 2. * iters), sharex=True, sharey=True)
 for i in range(iters):
     for j in range(num_models):
-        pcm = axs[i, j].imshow(models[0, j], vmin=0., vmax=models[0, j].max(), cmap='cividis')
+        pcm = axs[i, j].imshow(models[0, j], vmin=0., vmax=max(models[0, j].max(), 1.), cmap='cividis')
         fig.colorbar(pcm, ax=axs[i, j])
 
     print('max from every model', models.max((0, 2, 3)))
@@ -157,7 +157,8 @@ for i in range(iters):
     models = calc_prob(models, weights)
     
 # plt.tight_layout()
-plt.show()
+# plt.show()
+plt.savefig('model_converging.png')
 
 '''
 plt.subplots()
